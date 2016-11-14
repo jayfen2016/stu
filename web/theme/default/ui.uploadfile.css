@@ -1,0 +1,212 @@
+.ajax-file-upload-statusbar {
+	border: 1px solid #E2E2E2;
+	background-color: rgb(250, 250, 250);
+	margin-top: 6px;
+	height: 38px;
+}
+
+.ajax-file-upload-filename {
+	width: 100%;
+	height: auto;
+	margin: 5px 5px 2px 10px;
+	color: #2f8ab9;
+}
+
+.ajax-file-upload-progress {
+	margin: 0px 10px 5px 10px;
+	background-color: white;
+	position: relative;
+	width: 200px;
+	border: 1px solid #2f8ab9;
+	padding: 1px;
+	display: block;
+}
+
+.ajax-file-upload-bar {
+	background-color: #eb460e;
+	width: 0;
+	height: 6px;
+	color: #FFFFFF;
+}
+
+.ajax-file-upload-percent {
+	position: absolute;
+	display: inline-block;
+	top: 3px;
+	left: 48%;
+}
+
+.ajax-file-upload-red {
+	/*-moz-box-shadow: inset 0 39px 0 -24px #e67a73;
+    -webkit-box-shadow: inset 0 39px 0 -24px #e67a73;
+    box-shadow: inset 0 39px 0 -24px #e67a73;*/
+	background-color: #e4685d;
+	/*-moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;*/
+	display: block;
+	float: right;
+	color: #fff;
+	font-family: arial;
+	font-size: 13px;
+	font-weight: normal;
+	padding: 4px 15px;
+	text-decoration: none;
+	text-shadow: 0 1px 0 #b23e35;
+	cursor: pointer;
+	vertical-align: top;
+	margin-right: 5px;
+	margin-top: -28px;
+}
+
+.ajax-file-upload-green {
+	background-color: #77b55a;
+	/*-moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;*/
+	margin: 0;
+	padding: 0;
+	display: block;
+	float: left;
+	color: #fff;
+	font-family: arial;
+	font-size: 13px;
+	font-weight: normal;
+	padding: 4px 15px;
+	text-decoration: none;
+	cursor: pointer;
+	text-shadow: 0 1px 0 #5b8a3c;
+	vertical-align: top;
+	margin-right: 5px;
+	margin-top: -28px;
+}
+
+.ajax-file-upload {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 3px 10px 3px 10px;
+	cursor: pointer;
+	height: 22px;
+	line-height: 22px;
+	margin: 10px 0px 0px 10px;
+	/*display: inline-block;*/
+	display: block;
+	float: left;
+	border: 1px solid #e8e8e8;
+	color: #888;
+	text-decoration: none;
+	/*border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;*/
+	/*-moz-box-shadow: 0 2px 0 0 #e8e8e8;
+    -webkit-box-shadow: 0 2px 0 0 #e8e8e8;
+    box-shadow: 0 2px 0 0 #e8e8e8;*/
+	color: #fff;
+	background: #2f8ab9;
+	border: none;
+	/*-moz-box-shadow: 0 2px 0 0 #13648d;
+    -webkit-box-shadow: 0 2px 0 0 #13648d;*/
+	/*box-shadow: 0 2px 0 0 #13648d;*/
+	vertical-align: middle;
+}
+
+.ajax-file-upload:hover {
+	background: #3396c9;
+}
+
+.ajax-file-upload:active {
+	background-color: #e67a73;
+}
+
+.ajax-file-upload.readonly{
+	opacity: 0.5;
+	filter:alpha(opacity=50);
+	background: #2f8ab9 !important;
+}
+
+
+.ajax-upload-dragdrop {
+	background-color: white;
+	color: #c9c9c9;
+	text-align: left;
+	vertical-align: middle;
+	height: 48px;
+	border: 1px solid #aaa;
+	background-image: linear-gradient(rgb(238, 238, 238) 1%,
+		rgb(255, 255, 255) 15%);
+	-webkit-transition: border-color ease-in-out .15s, box-shadow
+		ease-in-out .15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	-webkit-rtl-ordering: logical;
+	-webkit-user-select: text;
+}
+
+.ajax-upload-dragdrop.readonly{
+	opacity: 0.5;
+	filter:alpha(opacity=50);
+}
+
+
+.ajax-upload-dragdrop span {
+	float: right;
+	display: inline;
+	line-height: 34px;
+	padding-right: 6px;
+	padding-top: 6px;
+	font-size: 15px;
+}
+
+.file-area {
+	margin-bottom: 6px;
+	line-height: 1px;
+}
+
+.file-area span {
+	display: block;
+	margin-bottom: 6px;
+	padding: 3px 0 3px 12px;
+	border: 1px solid #e8e8e8;
+}
+
+.file-area span:nth-child(2n+1) {
+	background-color: #f7f7f7;
+}
+
+.file-area span:hover {
+	background-color: #f8f8e5;
+	padding: 3px 0 3px 12px;
+	border: 1px solid #ebebbb;
+}
+
+.file-area span .file-name {
+	color: #2f8ab9;
+	cursor: pointer;
+	text-decoration: none;
+	line-height: 14px;
+}
+
+.file-area span .file-name:hover {
+	color: blue;
+}
+
+.file-area.readonly span a.remove {
+	display: none !important;
+}
+
+.file-area span a.remove {
+	color: #2f8ab9;
+	margin-left: 6px;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.file-area span a.remove:hover {
+	color: #2f8ab9;
+}
+.onlyView{
+
+}
+.onlyView.file-area span a.remove{
+    display: none;
+}

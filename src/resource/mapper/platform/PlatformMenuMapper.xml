@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "/WEB-INF/classes/mybatis-3-mapper.dtd">
+
+<mapper namespace="platformMenu">
+	<!-- 插入菜单 -->
+	<insert id="insertMenu" parameterType="data.platform.entity.EntityPlatformMenu">
+	<selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE">  
+  		SELECT NewID()
+    </selectKey>  
+    <![CDATA[
+        INSERT INTO &{framework.table.prefix['platform']}tbl_Platform_Menu
+		(id,MenuName,MenuCode,IconClass,Status,ParentId,MenuAddress,Remark,CreateTime,UpdateTime,Operator)
+		VALUES(#{id},#{menuName},#{menuCode},#{iconClass},#{status},#{parentId},#{menuAddress},#{remark},#{createTime},#{updateTime},#{operator})  
+    ]]>
+	</insert>
+	
+	<!-- 更新菜单 -->
+	<update id="updateMenu" parameterType="data.platform.entity.EntityPlatformMenu">
+	    <![CDATA[
+        update &{framework.table.prefix['platform']}tbl_Platform_Menu
+		set MenuName=#{menuName},
+		MenuCode=#{menuCode},
+		IconClass=#{iconClass},
+		Status=#{status},
+		ParentId=#{parentId},
+		MenuAddress=#{menuAddress},
+		Remark=#{remark},
+		UpdateTime=#{updateTime},
+		Operator=#{operator} where id = #{id}
+    ]]>
+	</update>
+	
+	<!-- 加载菜单 -->
+	<select id="loadMenu" parameterType="java.lang.String" resultType="data.platform.entity.EntityPlatformMenu">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_Menu where id = #{id}
+    ]]>
+	</select>
+	
+	<!-- 删除菜单 -->
+	<delete id="deleteMenu">
+	<![CDATA[
+        delete from &{framework.table.prefix['platform']}tbl_Platform_Menu where id in 
+    ]]>
+    <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+	</delete>
+	
+	<!-- 分页查询 -->
+	<select id="selectPaging" needPaging="true" parameterType="Map" resultType="data.platform.entity.EntityPlatformMenu">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}V_Platform_Menu_Tree 
+    ]]>
+    <where>
+    	<if test="menuName!=null and menuName!=''">  
+           AND MenuName like CONCAT('%',#{menuName},'%')
+       	</if>
+       	<if test="menuCode!=null and menuCode!=''">  
+           AND MenuCode like CONCAT('%',#{menuCode},'%')
+       	</if>
+       	<if test="status!=null">  
+           AND Status = #{status} 
+       	</if>
+   	</where>
+	</select>
+	
+	<!-- 查询菜单树 -->
+	<resultMap id="menuTreeMap" type="data.framework.data.DataTree">
+		<result property="id" column="id" />
+		<result property="label" column="MenuName" />
+		<collection property="children" column="{id=id,status=Status}" ofType="data.framework.data.DataTree" javaType="java.util.ArrayList" select="selectChildMenu">
+			<result property="id" column="id" />
+			<result property="label" column="MenuName" />
+		</collection>
+	</resultMap>
+    
+	<select id="selectTreeMenu" parameterType="Map" resultMap="menuTreeMap">
+	<![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_Menu where ParentId is null or ParentId = ''
+    ]]>
+    <if test="status!=null">  
+           AND Status = #{status} 
+    </if>
+    order by MenuCode
+	</select>
+	
+	<select id="selectChildMenu" resultMap="menuTreeMap">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_Menu where ParentId = #{id} AND Status = #{status} order by MenuCode
+    ]]>
+	</select>
+</mapper>

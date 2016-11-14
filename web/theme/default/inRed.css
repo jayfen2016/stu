@@ -1,0 +1,61 @@
+.ui-custom-btn {
+	border: 1px solid #009E98;
+	background: #009E95
+		url(../../theme/default/images/ui-bg_flat_15_009E98_40x100.png) 50%
+		50% repeat-x;
+	font-weight: bold;
+	padding: .4em 1em;
+	color: #ffffff;
+}
+
+.noLine td,.noLine th {
+	border: none !important;
+}
+
+.inp {
+	border: 1px solid #009E98;
+	display: inline;
+	padding: .3em 1em;
+	font-family: segoe ui, Arial, sans-serif;
+	font-size: 1em;
+	font-weight: bold;
+	color: #ffffff;
+	background: #009E98
+		url(../../theme/default/images/ui-bg_flat_15_009E98_40x100.png) 50%
+		50% repeat-x;
+}
+
+table.meetPlan
+	{
+		background-color: #F6F6F6;
+		border-collapse: collapse;
+		width: 100%;
+	}
+	table.meetPlan th 
+    {
+         border: 1px solid #E9E9E9;
+         border-bottom-width:1px;
+         text-align:center;
+         font-size:12px;
+         font-family: Î¢ÈíÑÅºÚ;
+         padding: 6px 12px;
+         color:white;
+         background-color: #36A9E0;
+         font-weight: normal;
+    }
+	table.meetPlan tbody td 
+    {
+         border: 1px solid #E9E9E9;
+         border-bottom-width:1px;
+         font-size:12px;
+         font-family: Î¢ÈíÑÅºÚ;
+         padding: 6px 12px;
+         font-weight: normal;
+    }
+    .whiteZW{
+    	background-color: white;
+    }
+    .selectZW{
+    	cursor:pointer;
+    	background-color: rgb(208,240,255);
+    }

@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>会话无效</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                margin: 0;
+                overflow-x: hidden;
+                margin-top: -10px;
+                font-family: 'Open Sans', sans-serif;
+                font-size: 12px;
+                color: #666;
+                line-height: 20px;
+                background-color: #ffffff;
+            }
+            .error_ex h1 {
+                font-size: 140px;
+                font-weight: bold;
+                padding: 50px 0;
+                color: #ce1a22;
+            }
+            h3 {
+                font-size: 24.5px;
+            }
+
+            h1, h2, h3 {
+                line-height: 40px;
+            }
+            h1, h2, h3, h4, h5, h6 {
+                margin: 10px 0;
+                font-family: inherit;
+                font-weight: bold;
+                line-height: 20px;
+                color: inherit;
+                text-rendering: optimizelegibility;
+            }
+            p {
+                margin: 0 0 10px;
+            }
+            * {
+                outline: none !important;
+                -moz-outline: none !important;
+            }
+
+            .error_ex {
+                height: 414px;
+                position: absolute;
+                z-index: 4;
+                top: 50%;
+                margin-top: -207px;
+                width: 100%;
+                text-align: center;
+                background-color: white;
+            }
+
+            .error_ex a {
+                color: #f7f7f7;
+                text-decoration: none;
+                font-size: 20px;
+                font-family: 微软雅黑;
+            }
+
+            a.btn {
+                display: inline-block;
+                padding: 12px 21px 13px 21px;
+                background-color: #eb460e;
+            }
+
+            a.btn:hover {
+                box-shadow: #6C6C6C 1px 2px 5px;
+                background-color: #DD4410;
+                color: white;
+            }
+
+            a.btn:active {
+                box-shadow: #360000 1px 2px 9px inset, #6C6C6C 1px 2px 5px;
+                background-color: #D03E0D;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="error_ex">
+            <h1 style="margin-top: 60px;margin-bottom: 30px;">401</h1>
+            <h3 style="margin-bottom: 20px;">你的会话已过期或身份未通过身份验证。</h3>
+            <p style="font-size: 1.4em;">请重新登陆</p>
+            <a class="btn" href="javascript:top.window.location.replace('login.jsp');" style="margin-top: 30px;">回到登陆页</a>
+        </div>
+    </body>
+</html>

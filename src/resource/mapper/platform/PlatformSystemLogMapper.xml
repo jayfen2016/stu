@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "/WEB-INF/classes/mybatis-3-mapper.dtd">
+
+<mapper namespace="platformSystemLog">
+	<insert id="insertSystemLog" parameterType="data.platform.entity.EntityPlatformSystemLog">
+	<selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE">  
+  		SELECT NewID()
+    </selectKey>  
+    <![CDATA[
+        INSERT INTO &{framework.table.prefix['platform']}tbl_Platform_SystemLog
+		(id,LogTime,LogType,Source,Remark,CreateTime,UpdateTime,Operator)
+		VALUES(#{id},#{logTime},#{logType},#{source},#{remark},#{createTime},#{updateTime},#{operator})  
+    ]]>
+	</insert>
+
+	<select id="selectPaging" needPaging="true" parameterType="Map" resultType="data.platform.entity.EntityPlatformSystemLog">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_SystemLog 
+    ]]>
+    <where>
+    	<if test="remark!=null and remark!=''">  
+           AND Remark like CONCAT('%',#{remark},'%')
+       	</if>
+       	<if test="logType!=null and logType!=''">  
+           AND LogType = #{logType}
+       	</if>
+       	<if test="startDate!=null">
+       	<![CDATA[   
+           AND CONVERT(varchar(100), LogTime, 23) >= #{startDate} 
+        ]]>
+       	</if>
+       	<if test="endDate!=null">
+       	<![CDATA[  
+           AND CONVERT(varchar(100), LogTime, 23) <= #{endDate}
+        ]]>
+       	</if>
+   	</where>
+	</select>
+</mapper>

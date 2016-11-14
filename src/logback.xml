@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+	<!-- <property name="log.base" value="E:/" /> -->
+	
+	<property name="log.base" value="../logs/stu_log/" />
+	
+	<appender name="startup.console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%-5level][%d{yyyy-MM-dd HH:mm:ss}][%F:%L] - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="startup.file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${log.base}startup.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${log.base}startup_%d{yyyy-MM-dd}.log</FileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<!-- <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%-5level][%d{yyyy-MM-dd HH:mm:ss}][%F:%L] - %msg%n</pattern>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>  
+		</encoder> -->
+		<layout class="ch.qos.logback.classic.PatternLayout">  
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n  
+            </pattern>  
+        </layout>  
+	</appender>
+	
+	<root>
+		<appender-ref ref="startup.console"/>
+	</root>
+</configuration>

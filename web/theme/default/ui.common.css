@@ -1,0 +1,48 @@
+﻿/*!
+ *Common
+ */
+.ui-dialog .ui-dialog-title {
+	cursor: default;
+	font-size: 14px;
+}
+
+.ui-dialog {
+	padding: 0;
+	box-shadow: 2px 3px 6px #5A5A5A;
+}
+.ui-dialog.ui-widget-content {
+	border: none;
+}
+
+.ui-dialog .ui-dialog-titlebar.ui-widget-header {
+	border: none;
+	background: #0099cc;
+	color: #efefef;
+}
+.ui-dialog .ui-dialog-titlebar .ui-button {
+	border: none;
+	background: none;
+	font-size: 14px;
+	outline: none;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+	border: none;
+	background-color: #f5f5f5;
+	margin-top:0px;
+}
+
+
+.ui-dialog .ui-dialog-buttonpane  .ui-button {
+	/*border: none;*/
+	/*border-radius: 5px;*/
+        outline: none;
+}
+.ui-dialog .ui-dialog-buttonpane  .ui-button:first-child {
+	/*background: green;*/
+}
+
+.ui-dialog .ui-dialog-buttonpane  .ui-button.ui-state-active:first-child {
+	/*background: white;*/
+	/*color: green;*/
+}

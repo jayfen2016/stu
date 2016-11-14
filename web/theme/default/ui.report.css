@@ -1,0 +1,113 @@
+html, body
+{
+    margin:0px;
+    overflow:hidden;
+}
+table
+{
+    border-collapse:collapse;
+    border:1px solid #ffffff;
+}
+th
+{
+    height:30px;
+    width:70px;
+    border:#000000 1px solid;
+    text-align:center;
+    vertical-align:middle;
+    font-family:'宋体';
+    font-size:9pt;
+}
+td
+{
+    height:20px;
+    width:70px;
+    border:#000000 1px solid;
+    vertical-align:middle;
+    font-family:'宋体';
+    font-size:9pt;
+    background-color:#ffffff;
+}
+.th_a
+{
+    background-color:#7030a0;
+    color:#ffffff;
+}
+.th_b
+{
+    background-color:#e26b0a;
+    color:#ffffff;
+}
+.th_c
+{
+    background-color:#333399;
+    color:#ffffff;
+}
+.th_d
+{
+    background-color:#00b050;
+    color:#ffffff;
+}
+.th_e
+{
+    background-color:#974706;
+    color:#ffffff;
+}
+.th_f
+{
+    background-color:#00b0f0;
+    color:#ffffff;
+}
+.th_g{
+	
+	background-color:#CDAD00
+    color:#ffffff;
+}
+
+.th_h{
+	background-color:#B0E2FF
+    color:#ffffff;
+}
+
+.unitDiv
+{
+    text-align:right;
+    font-family:'宋体';
+    font-size:9pt;height:20px;
+    width:400px;
+}
+
+.report_button
+{
+    cursor:pointer;
+    color:#ffffff;
+    background-color:#009e98;
+    border:solid 1px #009e98;
+    display:inline;
+    padding:7px 20px 5px 20px;
+    font-size:9pt;
+}
+
+.report_choose
+{
+    cursor:pointer;
+    width:250px;
+    outline:none;
+    padding:4px 15px 4px 3px;
+    border-radius:2px;
+    border-width:1px;
+    border-style:solid;
+    border-color:#a9a9a9;
+    background-image:url(images/report-w.png);
+    background-position:right top;
+    background-repeat:no-repeat;
+    
+}
+
+.report_select
+{
+    outline:none;
+    padding-top:3px;
+    padding-bottom:3px;
+    cursor:pointer;
+}

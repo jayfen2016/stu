@@ -1,0 +1,208 @@
+﻿    .ui-flowchart {
+            position: relative;
+            height: 238px;
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            background-color: #EFF5E8;
+        }
+
+            .ui-flowchart table {
+                margin-left: auto;
+                margin-right: auto;
+                height: 238px;
+            }
+
+            .ui-flowchart .node {
+                padding: 9px 24px 28px 12px;
+                font-size: 12px;
+                font-weight: bold;
+                white-space: nowrap;
+                cursor: pointer;
+                border-radius: 3px;
+                box-shadow: 1px 1px 4px #8A8A8A;
+                position: relative;
+            }
+
+                .ui-flowchart .node:hover {
+                }
+
+                .ui-flowchart .node .mas {
+                    position: absolute;
+                    right: 5px;
+                    bottom: 5px;
+                    padding: 2px 4px 1px 4px;
+                    border-radius: 7px;
+                    font-weight: normal;
+                }
+
+                .ui-flowchart .node.progress .progress-panel {
+                    display: block;
+                }
+
+                .ui-flowchart .node .progress-panel {
+                    display: none;
+                    width: 100%;
+                    text-align: right;
+                    position: absolute;
+                    bottom: -28px;
+                    left: 0px;
+                    z-index: 12;
+                    color: #C60;
+                    font-weight: normal;
+                    cursor: default;
+                }
+
+                .ui-flowchart .node .progress-bar {
+                    height: 4px;
+                    line-height: 4px;
+                    background-color: #FFF;
+                    border: solid 2px #C60;
+                    box-shadow: 0px 0px 6px #C4900A;
+                    border-radius: 4px;
+                }
+
+                .ui-flowchart .node .progress-panel .p-num {
+                    color: #252525;
+                    margin-right: 3px;
+                    font-weight: bold;
+                }
+
+                .ui-flowchart .node .progress-bar .progress-content {
+                    height: 4px;
+                    background-color: green;
+                    width: 0%;
+                }
+
+                .ui-flowchart .node.prepare {
+                    background-color: #666666;
+                    color: white;
+                    cursor: not-allowed;
+                }
+
+                    .ui-flowchart .node.prepare .mas {
+                        background-color: white;
+                        color: #666666;
+                        display: none;
+                    }
+
+                .ui-flowchart .node.progress {
+                    background-color: #CC6600;
+                    color: white;
+                }
+
+                    .ui-flowchart .node.progress .mas {
+                        color: #CC6600;
+                        background-color: white;
+                        display: inline;
+                    }
+
+                .ui-flowchart .node.complete {
+                    background-color: #006600;
+                    color: white;
+                }
+
+                    .ui-flowchart .node.complete .mas {
+                        color: #006600;
+                        background-color: white;
+                        display: inline;
+                    }
+
+                .ui-flowchart .node.abnormal {
+                    background-color: #e80000;
+                    color: white;
+                }
+
+                    .ui-flowchart .node.abnormal .mas {
+                        color: #e80000;
+                        background-color: white;
+                        display: inline;
+                    }
+
+                .ui-flowchart .node.ready {
+                    background-color: #8d002d;
+                    color: white;
+                }
+
+                    .ui-flowchart .node.ready .mas {
+                        color: #8d002d;
+                        background-color: white;
+                        display: inline;
+                    }
+
+            .ui-flowchart .line {
+                background-repeat: no-repeat;
+            }
+
+                .ui-flowchart .line.bottom {
+                    background-position: bottom;
+                }
+
+                .ui-flowchart .line.top {
+                    background-position: top;
+                }
+
+                .ui-flowchart .line.middle {
+                    background-position: left center;
+                }
+
+                .ui-flowchart .line.prepare.lt_rb {
+                    background-image: url("images/flowchart/LT_RB_prepare.png");
+                }
+
+                .ui-flowchart .line.progress.lt_rb {
+                    background-image: url("images/flowchart/LT_RB_progress.png");
+                }
+
+                .ui-flowchart .line.complete.lt_rb {
+                    background-image: url("images/flowchart/LT_RB_complete.png");
+                }
+
+                .ui-flowchart .line.ready.lt_rb {
+                    background-image: url("images/flowchart/LT_RB_ready.png");
+                }
+
+                .ui-flowchart .line.abnormal.lt_rb {
+                    background-image: url("images/flowchart/LT_RB_abnormal.png");
+                }
+
+                .ui-flowchart .line.prepare.lb_rt {
+                    background-image: url("images/flowchart/LB_RT_prepare.png");
+                }
+
+                .ui-flowchart .line.progress.lb_rt {
+                    background-image: url("images/flowchart/LB_RT_progress.png");
+                }
+
+                .ui-flowchart .line.complete.lb_rt {
+                    background-image: url("images/flowchart/LB_RT_complete.png");
+                }
+
+                .ui-flowchart .line.ready.lb_rt {
+                    background-image: url("images/flowchart/LB_RT_ready.png");
+                }
+
+                .ui-flowchart .line.abnormal.lb_rt {
+                    background-image: url("images/flowchart/LB_RT_abnormal.png");
+                }
+
+                .ui-flowchart .line.prepare.lm_rm {
+                    background-image: url("images/flowchart/LM_RM_prepare.png");
+                }
+
+                .ui-flowchart .line.progress.lm_rm {
+                    background-image: url("images/flowchart/LM_RM_progress.png");
+                }
+
+                .ui-flowchart .line.complete.lm_rm {
+                    background-image: url("images/flowchart/LM_RM_complete.png");
+                }
+
+                .ui-flowchart .line.ready.lm_rm {
+                    background-image: url("images/flowchart/LM_RM_ready.png");
+                }
+
+                .ui-flowchart .line.abnormal.lm_rm {
+                    background-image: url("images/flowchart/LM_RM_abnormal.png");
+                }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <properties>
+        <property name="framework.locale.default">zh_CN</property>
+        <property name="framework.theme.default">default</property>
+        <property name="framework.web.charset">UTF-8</property>
+        <property name="framework.encrypt.encode">MD5</property>
+        <property name="framework.web.upload.path">upload</property>
+    </properties>
+
+    <maps>
+         <map name="framework.table.prefix">
+            <entry key="scheduler">stu.dbo.SCHEDULE_</entry>
+            <entry key="platform">stu.dbo.</entry>
+        </map>
+
+		<map name="framework.data.properties">
+			<entry key="dialet">ORACLE</entry>
+			<entry key="driver">com.microsoft.sqlserver.jdbc.SQLServerDriver</entry>
+		    <entry key="driverUrl">jdbc:sqlserver://localhost:1433;SelectMethod=cursor;</entry>
+			<entry key="user">sa</entry>
+			<entry key="password">sa</entry>
+			<entry key="keepSql">select CURRENT_TIMESTAMP</entry>
+		</map>
+
+        <map name="framework.data.source">
+            <entry key="proxool.minimum-connection-count">5</entry>
+            <entry key="proxool.maximum-connection-count">100</entry>
+            <entry key="proxool.prototype-count">5</entry>
+            <entry key="proxool.simultaneous-build-throttle">20</entry>
+            <entry key="proxool.maximum-connection-lifetime">14400000</entry>
+            <entry key="proxool.maximum-active-time">300000</entry>
+        </map>
+		
+        <map name="framework.implements.map">
+            <entry key="dataSerializer">dataSerializerJacksonImpl</entry>
+            <entry key="scheduler">schedulerQuartzImpl</entry>
+        </map>
+    </maps>
+</configuration>

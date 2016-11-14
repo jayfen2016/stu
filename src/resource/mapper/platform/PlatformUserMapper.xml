@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "/WEB-INF/classes/mybatis-3-mapper.dtd">
+
+<mapper namespace="platformUser">
+	<!-- 用户和组织机构多对一关系结果 -->
+	<resultMap id="userMap" type="data.platform.entity.EntityPlatformUser">  
+        <id property="id" column="id"/>  
+        <result property="chineseName" column="ChineseName"/>  
+        <result property="englishName" column="EnglishName"/>
+        <result property="adAccount" column="ADAccount"/>
+        <result property="loginAccount" column="LoginAccount"/>
+        <result property="loginPassword" column="LoginPassword"/>
+        <result property="organizationId" column="OrganizationID"/>
+        <result property="officePhone" column="OfficePhone"/>
+        <result property="mobile" column="Mobile"/>
+        <result property="officeMail" column="OfficeMail"/>
+        <result property="status" column="Status"/>
+        <result property="lastLoginTime" column="LastLoginTime"/>
+        <result property="remark" column="Remark"/>
+        <result property="createTime" column="CreateTime"/>
+        <result property="updateTime" column="UpdateTime"/>
+        <result property="operator" column="Operator"/>
+        <result property="position" column="Position"/>
+        <result property="seqNums" column="SeqNums"/>
+        <result property="sex" column="Sex"/>
+        <association property="organization" column="OrganizationID" javaType="data.platform.entity.EntityPlatformOrganization" select="platformOrganization.loadOrganization" />  
+    </resultMap>
+    
+	<insert id="insertUser" parameterType="data.platform.entity.EntityPlatformUser">
+	<selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE">  
+  		SELECT NewID()
+    </selectKey>  
+    <![CDATA[
+        INSERT INTO &{framework.table.prefix['platform']}tbl_Platform_Users
+		(id,ChineseName,EnglishName,Position,SeqNums,ADAccount,LoginAccount,LoginPassword,OrganizationID,OfficePhone,Mobile,OfficeMail,LastLoginTime,Status,Remark,CreateTime,UpdateTime,Operator,Sex)
+		VALUES(#{id},#{chineseName},#{englishName},#{position},#{seqNums},#{adAccount},#{loginAccount},#{loginPassword},#{organizationId},#{officePhone},#{mobile},#{officeMail},#{lastLoginTime},#{status},#{remark},#{createTime},#{updateTime},#{operator},#{sex})  
+    ]]>
+	</insert>
+	
+	<update id="updateUser" parameterType="data.platform.entity.EntityPlatformUser">
+	    <![CDATA[
+        update &{framework.table.prefix['platform']}tbl_Platform_Users
+		set ChineseName=#{chineseName},
+		EnglishName=#{englishName},
+		Position=#{position},
+		SeqNums=#{seqNums},
+		ADAccount=#{adAccount},
+		LoginAccount=#{loginAccount},
+		OrganizationID=#{organizationId},
+		OfficePhone=#{officePhone},
+		Mobile=#{mobile},
+		OfficeMail=#{officeMail},
+		LastLoginTime=#{lastLoginTime},
+		Status=#{status},
+		Remark=#{remark},
+		UpdateTime=#{updateTime},
+		LoginPassword=#{loginPassword},
+		Operator=#{operator},
+		Sex=#{sex}
+		where id = #{id}
+    ]]>
+	</update>
+	
+	<select id="loadUser" parameterType="java.lang.String" resultMap="userMap">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_Users where id = #{id}
+    ]]>
+	</select>
+	<!-- add by lidong  -->
+	<select id="loadUsers" parameterType="java.lang.String" resultMap="userMap">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_Users where id in
+    ]]>
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+	</select>
+	
+	
+	<delete id="deleteUser">
+	<![CDATA[
+        delete from &{framework.table.prefix['platform']}tbl_Platform_Users where id in 
+    ]]>
+    <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+	</delete>
+	
+	<select id="selectPaging" needPaging="true" parameterType="Map" resultMap="userMap">
+    <![CDATA[
+        select u.*,o.OrganizationCode as OrganizationCode from &{framework.table.prefix['platform']}tbl_Platform_Users u left join 
+        				 &{framework.table.prefix['platform']}tbl_Platform_Organization o on u.OrganizationID=o.id where 1=1 
+    ]]>
+		<if test="chineseName!=null and chineseName!=''">  
+	        AND ChineseName like CONCAT('%',#{chineseName},'%')
+	   	</if>
+	    <if test="englishName!=null and englishName!=''">  
+	        AND EnglishName like CONCAT('%',#{englishName},'%')
+	    </if>
+	    <if test="loginAccount!=null and loginAccount!=''">  
+	        AND LoginAccount like CONCAT('%',#{loginAccount},'%')
+	    </if>
+	    <if test="organizationId!=null and organizationId!=''">  
+	        AND OrganizationID = #{organizationId} 
+	    </if>
+	    <if test="officePhone!=null and officePhone!=''">  
+	        AND OfficePhone like CONCAT('%',#{officePhone},'%')
+	    </if>
+	    <if test="mobile!=null and mobile!=''">  
+	        AND Mobile like CONCAT('%',#{mobile},'%')
+	    </if>
+	    <if test="officeMail!=null and officeMail!=''">  
+	        AND OfficeMail like CONCAT('%',#{officeMail},'%') 
+	    </if>
+	    <if test="status!=null">  
+	        AND Status = #{status} 
+	    </if>
+	    <if test="departmentId!=null and departmentId!=''">  
+	        AND OrganizationID = #{departmentId} 
+	    </if>
+	</select>
+	
+	<select id="selectUserRoles" parameterType="java.lang.String" resultType="java.lang.String">
+    <![CDATA[
+        select RoleID from &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping where UserID = #{userId}
+    ]]>
+	</select>
+	
+	<select id="selectUserRolesAndDefault" parameterType="java.lang.String" resultType="Map">
+    <![CDATA[
+        select RoleID,IsDefault from &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping where UserID = #{userId}
+    ]]>
+	</select>
+	
+	<delete id="deleteUserRole">
+	<![CDATA[
+        delete from &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping where UserID in 
+    ]]>
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+	</delete>
+	
+	<insert id="insertUserRole" parameterType="Map">
+    <![CDATA[
+        INSERT INTO &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping
+		(id,UserID,RoleID) VALUES
+    ]]>
+    <foreach collection="roleIds" index="index" item="item" separator=",">     
+  		(NewID(),#{userId},#{item})  
+   	</foreach>
+	</insert>
+	
+	<!-- 刷新用户的最后登录时间 -->
+	<update id="flashLoginTime" parameterType="java.lang.String">
+	    <![CDATA[
+        update &{framework.table.prefix['platform']}tbl_Platform_Users
+		set LastLoginTime=CURRENT_TIMESTAMP 
+		where id = #{userId}
+    ]]>
+	</update>
+	
+	<!-- 根据用户登陆名称查找用户 -->
+	<select id="getUserByLoginName" parameterType="java.lang.String" resultType="data.platform.entity.EntityPlatformUser">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_Users where LoginAccount = #{loginAccount}
+    ]]>
+	</select>
+	
+	<!-- 取得用户默认角色 -->
+	<select id="getDefaultRoleByUser" parameterType="java.lang.String" resultType="java.lang.String">
+    <![CDATA[
+    	SELECT distinct ur.RoleID 
+		FROM &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping ur 
+		inner join &{framework.table.prefix['platform']}tbl_Platform_Users u on u.id=ur.UserID
+		where u.LoginAccount = #{loginAccount} and ur.IsDefault=1
+    ]]>
+	</select>
+	
+	<!-- 取得用户的功能权限集合 -->
+	<select id="getFunctionAuthoritiesByUser" parameterType="java.lang.String" resultType="java.lang.String">
+	
+    <![CDATA[
+		
+		select distinct CONCAT(m.MenuAddress,';',p.ControlledButtonCode) as AUTHORITY from (
+			SELECT distinct  rf.ControlledMenuID,rf.ControlledButtonCode 
+			FROM &{framework.table.prefix['platform']}tbl_Platform_RoleFunctionalAuthority rf
+			left join &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping ur
+			on ur.RoleID = rf.RoleID where ur.UserID = #{userId}
+		) p LEFT JOIN &{framework.table.prefix['platform']}tbl_Platform_Menu m ON m.id=p.ControlledMenuID where m.Status=1
+    ]]>
+	</select>
+	
+	<!-- 取得用户的数据权限集合 -->
+	<select id="getDataAuthoritiesByUser" parameterType="Map" resultType="java.lang.String">
+    <![CDATA[
+    	select distinct TMISCode_ControlledTaxFilingUnit FROM &{framework.table.prefix['platform']}tbl_Platform_RoleDataAuthority a
+		inner join &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping m on m.RoleID=a.RoleID
+		inner join &{framework.table.prefix['platform']}tbl_Platform_Users u on u.id=m.UserID
+		inner join &{framework.table.prefix['platform']}tbl_MD_TaxFilingUnit unit on unit.TMISCode=a.TMISCode_ControlledTaxFilingUnit 
+		where u.LoginAccount = #{loginAccount} and m.RoleID=#{roleId} and unit.Status=1
+    ]]>
+	</select>
+	
+	<!-- 查询用户的功能权限菜单 -->
+	<resultMap id="userMenuTreeMap" type="data.platform.common.MenuTree">
+		<result property="code" column="id" />
+		<result property="title" column="MenuName" />
+		<result property="cls" column="IconClass" />
+		<result property="url" column="MenuAddress" />
+		<collection property="menus" column="{id=id,userId=UserID}" ofType="data.platform.common.MenuTree" javaType="java.util.ArrayList" select="selectChildMenu">
+			<result property="code" column="id" />
+			<result property="title" column="MenuName" />
+			<result property="cls" column="IconClass" />
+			<result property="url" column="MenuAddress" />
+		</collection>
+	</resultMap>
+	
+	<select id="getMenusByUser" parameterType="java.lang.String" resultMap="userMenuTreeMap">
+	<![CDATA[
+        select distinct top 100  t.*,t.UserID from (
+			select distinct m.*,p.UserID from (
+				SELECT distinct rf.*,ur.UserID 
+				FROM &{framework.table.prefix['platform']}tbl_Platform_RoleFunctionalAuthority rf
+				left join &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping ur
+				on ur.RoleID = rf.RoleID where ur.UserID = #{userId}
+			) p LEFT JOIN &{framework.table.prefix['platform']}V_Platform_Menu_Tree m ON m.id=p.ControlledMenuID where m.Status=1
+		) t where  t.ParentId is null or t.ParentId = '' order by  t.MenuCode,t.serial  
+    ]]>
+	</select>
+	
+	<!-- 根据当前登陆用户查询用户的角色 -->
+	<select id="getUserRoleInfo" parameterType="java.lang.String" resultType="data.platform.entity.EntityPlatformRole">
+    <![CDATA[
+        
+        select * from &{framework.table.prefix['platform']}tbl_Platform_Roles where id in (select roleid from &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping where userid= #{currentUserId})
+    ]]>
+    </select>
+   
+   <!-- 
+	<select id="selectChildMenu" resultMap="userMenuTreeMap">
+    <![CDATA[
+    	
+		
+		select distinct top 100 PERCENT t.*,t.UserID from (
+			select distinct m.*,p.UserID from (
+				SELECT distinct rf.*,ur.UserID 
+				FROM &{framework.table.prefix['platform']}tbl_Platform_RoleFunctionalAuthority rf
+				left join &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping ur
+				on ur.RoleID = rf.RoleID where ur.UserID = #{userId}
+			) p LEFT JOIN &{framework.table.prefix['platform']}V_Platform_Menu_Tree m ON m.id=p.ControlledMenuID where m.Status=1
+		) t where t.ParentId = #{id} order by  t.MenuCode,t.serial
+    ]]>
+	</select>
+	-->
+	
+	<select id="selectChildMenu" resultMap="userMenuTreeMap">
+    <![CDATA[
+    	
+		 select distinct top 100 PERCENT t.*,t.UserID from (
+			select distinct m.*,p.UserID from (
+				SELECT distinct rf.*,kk.UserID 
+				FROM &{framework.table.prefix['platform']}tbl_Platform_RoleFunctionalAuthority rf,
+				 (select distinct ur.UserID,r.id as RoleID  from &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping ur inner join 
+				  &{framework.table.prefix['platform']}tbl_Platform_Roles r on r.id=ur.RoleID where
+				  ur.UserID =#{userId}) as kk
+				where  kk.RoleID = rf.RoleID 
+			)   p , &{framework.table.prefix['platform']}V_Platform_Menu_Tree m where m.id=p.ControlledMenuID and m.Status=1
+			) t where t.ParentId = #{id} order by  t.MenuCode,t.serial
+    ]]>
+	</select>
+	
+	
+	
+	<!-- 获取当前用户的其他角色（不包含当前角色） -->
+	<select id="getOtherRolesByUserId" parameterType="Map" resultType="data.platform.entity.EntityPlatformRole">
+    <![CDATA[
+        select r.* from &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping m
+		inner join &{framework.table.prefix['platform']}tbl_Platform_Users u on u.id=m.UserID
+		inner join &{framework.table.prefix['platform']}tbl_Platform_Roles r on r.id=m.RoleID
+		where UserID = #{currentUserId} and r.id != #{currentRoleId}
+    ]]>
+	</select>
+	
+	<!-- 根据当前登陆用户的ADAccount查找与其有相同ADAccount的用户（不包含当前用户） -->
+	<select id="getOtherUsersByADAccount" parameterType="java.lang.String" resultType="data.platform.entity.EntityPlatformUser">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_Users where ADAccount = #{adAccount} and id != #{currentUserId}
+    ]]>
+	</select>
+	
+	<!-- 修改用户密码 -->
+	<update id="changePassword">
+	    <![CDATA[
+        update &{framework.table.prefix['platform']}tbl_Platform_Users
+		set LoginPassword=#{newPassword} 
+		where id in
+    ]]>
+    <foreach collection="userIds" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+	</update>
+	
+<!-- 根据角色查询拥有此角色的用户  added by JohnXU @ 2014-6-26 -->
+	<select id="searchUserByRoleName" parameterType="java.lang.String" resultMap="userMap">
+    <![CDATA[
+        select u.id,u.ChineseName,u.EnglishName from &{framework.table.prefix['platform']}tbl_Platform_Users u,&{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping m,
+        &{framework.table.prefix['platform']}tbl_Platform_Roles r 
+        where u.id=m.userid and r.id=m.roleId and u.status=1 and r.status=1 and r.roleName LIKE  CONCAT('%',#{roleName},'%')
+    ]]>
+    
+	</select>
+	
+<!-- 根据角色ID查询拥有此角色的用户  added by lidong @ 2014-12-12 -->
+	<select id="searchUserByRoleID" parameterType="java.lang.String" resultType="hashmap">
+    <![CDATA[
+        select u.ChineseName as chineseName,o.OrganizationName as organizationName,u.id as userid from &{framework.table.prefix['platform']}tbl_Platform_Users u,&{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping m,
+        &{framework.table.prefix['platform']}tbl_Platform_Roles r ,
+        &{framework.table.prefix['platform']}tbl_Platform_Organization o
+        where u.id=m.userid and r.id=m.roleId and u.status=1 and r.status=1 
+        and u.OrganizationID = o.id
+        and r.id in
+    ]]>
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+   	<![CDATA[
+   		order by u.SeqNums  asc
+   	]]>
+	</select>
+	
+<!-- 根据userId查询   用户名称 ,added  by JohnXU @ 2014-6-26 -->
+	<select id="searchUserChineseNameById" parameterType="java.lang.String" resultType="java.lang.String">
+    <![CDATA[
+        select u.ChineseName from &{framework.table.prefix['platform']}tbl_Platform_Users u where u.id=#{id}]]>
+	</select>
+	
+<!-- 根据Rsc Tax对口人的名称短语来查询启用状态的Rsc Tax对口人数据集合   added by JohnXU @ 2014-8-8 -->
+	<select id="searchUserByRoleNameByTerm" parameterType="Map"  resultType="Map">
+    <![CDATA[
+        select u.id as rscTaxSuitId,u.ChineseName as rscTaxSuitName
+        from &{framework.table.prefix['platform']}tbl_Platform_Users u,
+        &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping m,
+        &{framework.table.prefix['platform']}tbl_Platform_Roles r 
+        where u.id=m.userid and r.id=m.roleId and u.status=1 and r.roleName like CONCAT('%','RSC','%')
+        and (u.ChineseName like CONCAT('%',#{term},'%') OR u.EnglishName like CONCAT('%',#{term},'%'))
+        order by u.ChineseName 
+    ]]>
+	</select>
+	
+	<select id="selectNoticePersonsPaging" needPaging="true" parameterType="Map" resultMap="userMap">
+    <![CDATA[
+        select u.id,u.ChineseName,u.EnglishName 
+        from &{framework.table.prefix['platform']}tbl_Platform_Users u
+        where u.status=1 
+    ]]>
+    <if test="chineseName!=null and chineseName!=''">
+			AND u.ChineseName like CONCAT('%',#{chineseName},'%')  
+	</if>
+	 <if test="englishName!=null and englishName!=''">
+			AND u.EnglishName like CONCAT('%',#{englishName},'%')  
+	</if>
+	</select>
+	
+	<!--查询所有的职位数据 -->
+	<select id="searchUserPosition"  resultType="data.platform.entity.EntityPlatformDataDictionary">
+    <![CDATA[
+        select *
+           from &{framework.table.prefix['platform']}tbl_PD_DataDictionary u where ParentDictionary ='5B9DC820-F04E-4B39-9F36-AA5E894B78C5'
+    ]]>
+	</select>
+	
+	
+		<!--查询所有的职位数据 -->
+	<select id="getUserMenu_APP"  resultType="Map">
+    <![CDATA[
+    	select distinct m.MenuName,m.MenuCode from (
+				SELECT distinct rf.*,ur.UserID 
+				FROM &{framework.table.prefix['platform']}tbl_Platform_RoleFunctionalAuthority rf
+				left join &{framework.table.prefix['platform']}tbl_Platform_UserRoleMapping ur
+				on ur.RoleID = rf.RoleID where ur.UserID = #{userId}
+			) p LEFT JOIN &{framework.table.prefix['platform']}V_Platform_Menu_Tree m ON m.id=p.ControlledMenuID where m.Status=1
+			AND
+				(
+					m.ParentId IN(
+						select id from &{framework.table.prefix['platform']}V_Platform_Menu_Tree where (ParentId is NULL or ParentId='')
+			 				and MenuName in ('通讯录','会议管理','工作周报','日程管理','我的流程','留言板'))
+			 		or 
+				    m.id IN(
+				    	select id from &{framework.table.prefix['platform']}V_Platform_Menu_Tree where (ParentId is NULL or ParentId='')
+				 			and MenuName in ('通讯录','会议管理','工作周报','日程管理','我的流程','留言板'))
+				 )
+    ]]>
+	</select>
+		<!-- 	AND
+				(
+					m.ParentId IN(
+						select id from &{framework.table.prefix['platform']}V_Platform_Menu_Tree where (ParentId is NULL or ParentId='')
+			 				and MenuName in ('通讯录','会议管理','工作周报','流程管理','日程管理','我的流程','留言板'))
+			 		or 
+				    m.id IN(
+				    	select id from &{framework.table.prefix['platform']}V_Platform_Menu_Tree where (ParentId is NULL or ParentId='')
+				 			and MenuName in ('通讯录','会议管理','工作周报','流程管理','日程管理','我的流程','留言板'))
+				 ) -->
+			
+</mapper>

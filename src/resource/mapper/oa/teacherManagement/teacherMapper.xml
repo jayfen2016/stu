@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "/WEB-INF/classes/mybatis-3-mapper.dtd">
+
+<mapper namespace="teacher">
+    
+	<insert id="insert" parameterType="data.oa.teacherManagement.entity.Teacher">
+		<selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE">  
+	  		SELECT NewID()
+	    </selectKey>  
+	    <![CDATA[
+	        INSERT INTO &{framework.table.prefix['platform']}teacher
+			(id,name,address,sex)
+			VALUES(#{id},#{name},#{address},#{sex})  
+	    ]]>
+	</insert>
+	
+	<update id="update" parameterType="data.oa.teacherManagement.entity.Teacher">
+	    <![CDATA[
+	        update &{framework.table.prefix['platform']}teacher
+			set name=#{name},
+			address=#{address},
+			sex=#{sex}
+			where id = #{id}
+    	]]>
+	</update>
+	
+	<select id="load" parameterType="java.lang.String" resultType="data.oa.teacherManagement.entity.Teacher">
+	    <![CDATA[
+	        select * from &{framework.table.prefix['platform']}teacher where id = #{id}
+	    ]]>
+	</select>
+	
+	
+	<delete id="delete">
+		<![CDATA[
+	        delete from &{framework.table.prefix['platform']}teacher where id in 
+	    ]]>
+	    <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">     
+	  		#{item}
+	   	</foreach>
+	</delete>
+	
+	<select id="selectPaging" needPaging="true" parameterType="Map" resultType="data.oa.teacherManagement.entity.Teacher">
+	    <![CDATA[
+	        select * from &{framework.table.prefix['platform']}teacher
+	    ]]>
+	    <where>
+			<if test="name!=null and name!=''">  
+		        AND name like CONCAT('%',#{name},'%')
+		   	</if>
+		    <if test="address!=null and address!=''">  
+		        AND address like CONCAT('%',#{address},'%')
+		    </if>
+		    <if test="sex!=null">  
+		        AND sex = #{sex}
+		    </if>
+		</where>
+	</select>			
+</mapper>

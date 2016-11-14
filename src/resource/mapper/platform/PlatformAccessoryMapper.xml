@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "/WEB-INF/classes/mybatis-3-mapper.dtd">
+
+<mapper namespace="platformAccessory">
+	<insert id="inertAccessory" parameterType="data.platform.entity.EntityPlatformAccessory">
+	<selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE">  
+  		SELECT NewID()
+    </selectKey>  
+    <![CDATA[
+        INSERT INTO &{framework.table.prefix['platform']}tbl_PD_Accessory
+		(id,AssociatedObjectID,FileSource,FileName,FileNameExtension,FileNameInServer,FilePathInServer,FileSize,FileUploadTime,Operator)
+		VALUES(#{id},#{associatedObjectID},#{fileSource},#{fileName},#{fileNameExtension},#{fileNameInServer},#{filePathInServer},#{fileSize},#{fileUploadTime},#{operator})  
+    ]]>
+	</insert>
+	
+	<update id="updateAccessory" parameterType="data.platform.entity.EntityPlatformAccessory">
+    <![CDATA[
+		update &{framework.table.prefix['platform']}tbl_PD_Accessory
+		set AssociatedObjectID=#{associatedObjectID},
+		FileSource=#{fileSource},
+		FileName=#{fileName},
+		FileNameExtension=#{fileNameExtension},
+		FileNameInServer=#{fileNameInServer},
+		FilePathInServer=#{filePathInServer},
+		FileSize=#{fileSize},
+		FileUploadTime=#{fileUploadTime},
+		Operator=#{operator}
+		where id = #{id}  
+    ]]>
+	</update>
+	
+		
+	<!-- 更新数据字典 -->
+	<update id="updateDataDictionary" parameterType="data.platform.entity.EntityPlatformDataDictionary">
+	    <![CDATA[
+        update &{framework.table.prefix['platform']}tbl_PD_DataDictionary
+		set DictionaryName=#{dictionaryName},
+		DictionaryCode=#{dictionaryCode},
+		ParentDictionary=#{parentDictionary},
+		DictionaryType=#{dictionaryType},
+		DictionaryModule=#{dictionaryModule},
+		Remark=#{remark},
+		UpdateTime=#{updateTime},
+		Operator=#{operator} where id = #{id}
+    ]]>
+	</update>
+	
+	
+	<insert id="batchInertAccessory" parameterType="data.platform.entity.EntityPlatformAccessory">
+    <![CDATA[
+        INSERT INTO &{framework.table.prefix['platform']}tbl_PD_Accessory
+		(id,AssociatedObjectID,FileSource,FileName,FileNameExtension,FileNameInServer,FilePathInServer,FileSize,FileUploadTime,Operator)
+		VALUES 
+    ]]>
+    <foreach collection="list" index="index" item="item" separator=",">     
+  		(
+			NewID(),
+			#{item.associatedObjectID},
+			#{item.fileSource},
+			#{item.fileName},
+			#{item.fileNameExtension},
+			#{item.fileNameInServer},
+			#{item.filePathInServer},
+			#{item.fileSize},
+			#{item.fileUploadTime},
+			#{item.operator}
+		)
+   	</foreach>
+	</insert>
+	
+	<select id="loadAccessory" parameterType="java.lang.String" resultType="data.platform.entity.EntityPlatformAccessory">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_PD_Accessory where id = #{id}
+    ]]>
+	</select>
+	
+	<select id="loadNullAssociated" resultType="data.platform.entity.EntityPlatformAccessory">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_PD_Accessory where AssociatedObjectID = '' or AssociatedObjectID is null
+    ]]>
+	</select>
+	
+	<delete id="deleteAccessory" parameterType="java.lang.String">
+	<![CDATA[
+        delete from &{framework.table.prefix['platform']}tbl_PD_Accessory where id = #{id} 
+    ]]>
+	</delete>
+	
+	<delete id="batchDeleteAccessory">
+	<![CDATA[
+        delete from &{framework.table.prefix['platform']}tbl_PD_Accessory where id in
+    ]]>
+    <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+	</delete>
+	
+	<delete id="deleteAccessoryByAssociatedObjectId" parameterType="java.lang.String">
+	<![CDATA[
+        delete from &{framework.table.prefix['platform']}tbl_PD_Accessory where AssociatedObjectID = #{associatedObjectId} 
+    ]]>
+	</delete>
+	
+ <!-- 依据 员工id集合  删除附件信息数据 -->
+	<delete id="deleteAllInfoByEmploymeeId">
+	<![CDATA[
+        delete from &{framework.table.prefix['platform']}tbl_PD_Accessory where AssociatedObjectID in 
+    ]]>
+    <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+	</delete>
+	
+	<update id="associatedAccessory" parameterType="Map">
+	<![CDATA[
+        update &{framework.table.prefix['platform']}tbl_PD_Accessory set AssociatedObjectID = #{objectId} where id in 
+    ]]>
+    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+	</update>
+	
+	<select id="searchAccessoryByAssociatedObjectId" parameterType="java.lang.String" resultType="data.platform.entity.EntityPlatformAccessory">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_PD_Accessory where AssociatedObjectID = #{associatedObjectId}
+    ]]>
+	</select>
+	
+	<select id="searchAccessoryByIdList" resultType="data.platform.entity.EntityPlatformAccessory">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_PD_Accessory where id in
+    ]]>
+    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+        order by FileUploadTime desc
+	</select>
+</mapper>

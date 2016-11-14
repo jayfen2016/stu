@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "/WEB-INF/classes/mybatis-3-mapper.dtd">
+
+<mapper namespace="platformUserGroup">
+	<insert id="insertUserGroup" parameterType="data.platform.entity.EntityPlatformUserGroup">
+	<selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE">  
+  		SELECT NewID()
+    </selectKey>  
+    <![CDATA[
+        INSERT INTO &{framework.table.prefix['platform']}tbl_Platform_UserGroup
+		(id,GroupName,Remark,Status,CreateTime,UpdateTime,Operator)
+		VALUES(#{id},#{groupName},#{remark},#{status},#{createTime},#{updateTime},#{operator})  
+    ]]>
+	</insert>
+	
+	<update id="updateUserGroup" parameterType="data.platform.entity.EntityPlatformUserGroup">
+	    <![CDATA[
+        update &{framework.table.prefix['platform']}tbl_Platform_UserGroup
+		set GroupName=#{groupName},
+		Remark=#{remark},
+		Status=#{status},
+		UpdateTime=#{updateTime},
+		Operator=#{operator} where id = #{id}
+    ]]>
+	</update>
+	
+	<select id="loadUserGroup" parameterType="java.lang.String" resultType="data.platform.entity.EntityPlatformUserGroup">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_UserGroup where id = #{id}
+    ]]>
+	</select>
+	
+	<delete id="deleteUserGroup">
+	<![CDATA[
+        delete from &{framework.table.prefix['platform']}tbl_Platform_UserGroup where id in 
+    ]]>
+    <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+	</delete>
+	
+	<select id="selectPaging" needPaging="true" parameterType="Map" resultType="data.platform.entity.EntityPlatformUserGroup">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_UserGroup 
+    ]]>
+    <where>
+    	<if test="groupName!=null and groupName!=''">  
+           AND GroupName like CONCAT('%',#{groupName},'%')
+       	</if>
+       	<if test="status!=null">  
+           AND Status = #{status} 
+       	</if>
+   	</where>
+	</select>
+</mapper>

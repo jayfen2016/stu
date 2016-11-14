@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+  http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd
+  http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+  http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+  <!--- 定义 bean 对应的类 -->  
+  <bean id ="filesClear" class ="data.oa.autoJob.FilesClear"></bean>  
+  
+  <!-- 定义任务调用的对象和方法 -->  
+  <bean id ="jobTask" class ="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+    <property name ="targetObject">  
+      <ref bean ="filesClear"/>  
+    </property>  
+    <property name ="targetMethod">  
+      <value>run</value>  
+    </property>  
+  </bean>  
+  
+  <!-- 定义任务触发时间 -->  
+  <bean id ="runTask" class ="org.springframework.scheduling.quartz.CronTriggerBean">  
+    <property name ="jobDetail">  
+      <ref bean ="jobTask"/>  
+    </property>  
+    <property name ="cronExpression">  
+      <value>0 0 3 * * ?</value>  
+    </property>  
+  </bean>  
+  
+  <!-- 总管理类  如果将 lazy-init='false' 那么容器启动就会执行调度程序  -->  
+  <bean id ="schedulerFactory" lazy-init ="true" autowire ="no" class ="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+    <property name ="triggers">  
+      <list>  
+        <ref bean ="runTask"/>  
+      </list>  
+    </property>  
+  </bean>  
+</beans>  

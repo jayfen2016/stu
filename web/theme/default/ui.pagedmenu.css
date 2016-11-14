@@ -1,0 +1,98 @@
+﻿/*!
+* jQuery ui pagedmenu 
+* 
+* version 1.0 2014-03-03
+* author Qunpeng.Li
+*/
+.ui-pagedmenu-panel {
+	position: relative;
+	overflow: hidden;
+	color: white;
+}
+
+.ui-pagedmenu-pager-bar {
+	display: none;
+	float: left;
+	width: 40px;
+	height: 100%;
+	color: white;
+	line-height: 68px;
+	font-family: 黑体;
+	font-size: 30px;
+	cursor: pointer;
+	text-align: center;
+	display: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+background-color: #006699;
+}
+
+.ui-pagedmenu-pager-bar:hover {
+	background-color: #0099CC;
+	cursor: pointer;
+}
+
+.ui-pagedmenu-pager-bar:active {
+	background-color: #0099CC;
+	cursor: pointer;
+}
+
+.disabled.ui-pagedmenu-pager-bar {
+	cursor: default !important;
+	color: #adadad !important;
+	background-color: #006699 !important;
+}
+
+.ui-pagedmenu-content {
+	width: 8000px;
+	position: absolute;
+	height: 100%;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+	z-index: 15;
+}
+
+.ui-pagedmenu-pager {
+	position: absolute;
+	height: 100%;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+	z-index: 16;
+	right: 0px;
+}
+
+.ui-pagedmenu-content div {
+	float: left;
+	height: 100%;
+	padding-left: 39px;
+	padding-right: 12px;
+	font-size: 13px;
+	font-family: 微软雅黑;
+	font-weight: bold;
+	line-height: 68px;
+	cursor: default;
+}
+
+.ui-pagedmenu-content div.selected {
+	background-color: #36A9E0 !important;
+	cursor: default !important;
+}
+
+.ui-pagedmenu-content div:hover {
+background-color: #69BCE4;
+cursor: pointer;
+}
+
+.ui-pagedmenu-content div:active {
+	background-color: #36A9E0;
+	cursor: pointer;
+}

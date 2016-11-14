@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "/WEB-INF/classes/mybatis-3-mapper.dtd">
+
+<mapper namespace="platformOrganization">
+	<!-- 插入组织机构 -->
+	<insert id="insertOrganization" parameterType="data.platform.entity.EntityPlatformOrganization">
+	<selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE">  
+  		SELECT NewID()
+    </selectKey>  
+    <![CDATA[
+        INSERT INTO &{framework.table.prefix['platform']}tbl_Platform_Organization
+		(id,OrganizationName,OrganizationCode,ParentId,Remark,CreateTime,UpdateTime,Operator)
+		VALUES(#{id},#{organizationName},#{organizationCode},#{parentId},#{remark},#{createTime},#{updateTime},#{operator})  
+    ]]>
+	</insert>
+	
+	<!-- 更新组织机构 -->
+	<update id="updateOrganization" parameterType="data.platform.entity.EntityPlatformOrganization">
+	    <![CDATA[
+        update &{framework.table.prefix['platform']}tbl_Platform_Organization
+		set OrganizationName=#{organizationName},
+		OrganizationCode=#{organizationCode},
+		ParentId=#{parentId},
+		Remark=#{remark},
+		UpdateTime=#{updateTime},
+		Operator=#{operator} where id = #{id}
+    ]]>
+	</update>
+	
+	<!-- 加载组织机构 -->
+	<select id="loadOrganization" parameterType="java.lang.String" resultType="data.platform.entity.EntityPlatformOrganization">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_Organization where id = #{id}
+    ]]>
+	</select>
+	
+	<!-- 删除组织机构 -->
+	<delete id="deleteOrganization">
+	<![CDATA[
+        delete from &{framework.table.prefix['platform']}tbl_Platform_Organization where id in 
+    ]]>
+    <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+	</delete>
+   	<!-- 查询多个用户的组织机构根据用户id(选人的顺序)。 -->
+   	<select id="selectOrganizationByUserIDAndDf" parameterType="Map" resultType="hashMap">
+    <![CDATA[
+        select u.id as userid,u.ChineseName as chineseName,o.OrganizationName as organizationName ,o.id as organizationID
+        from &{framework.table.prefix['platform']}tbl_Platform_Users u,
+        &{framework.table.prefix['platform']}tbl_Platform_Organization o
+        where u.OrganizationID = o.id and u.id in
+    ]]>
+    <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">
+  		#{item}
+   	</foreach>
+   	</select>
+	<!-- 下拉框term查询 -->
+	<select id="selectTermPaging" needPaging="true" parameterType="Map" resultType="Map">
+    <![CDATA[
+        select id as value,OrganizationName as text from &{framework.table.prefix['platform']}tbl_Platform_Organization 
+    ]]>
+    <where>
+    	<if test="organizationName!=null and organizationName!=''">  
+           AND OrganizationName like CONCAT('%',#{organizationName},'%')
+       	</if>
+       	<if test="organizationCode!=null and organizationCode!=''">  
+           AND OrganizationCode like CONCAT('%',#{organizationCode},'%')
+       	</if>
+   	</where>
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="selectPaging" needPaging="true" parameterType="Map" resultType="data.platform.entity.EntityPlatformOrganization">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}V_Platform_Organization_Tree 
+    ]]>
+    <where>
+    	<if test="organizationName!=null and organizationName!=''">  
+           AND OrganizationName like CONCAT('%',#{organizationName},'%')
+       	</if>
+       	<if test="organizationCode!=null and organizationCode!=''">  
+           AND OrganizationCode like CONCAT('%',#{organizationCode},'%')
+       	</if>
+   	</where>
+	</select>
+	
+	<!-- 查询组织机构树 -->
+	<resultMap id="organizationTreeMap" type="data.framework.data.DataTree">
+		<result property="id" column="id" />
+		<result property="label" column="OrganizationName" />
+		<collection property="children" column="id" ofType="data.framework.data.DataTree" javaType="java.util.ArrayList" select="selectChildOrganization">
+			<result property="id" column="id" />
+			<result property="label" column="OrganizationName" />
+		</collection>
+	</resultMap>
+    
+	<select id="selectTreeOrganization" resultMap="organizationTreeMap">
+	<![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_Organization where ParentId is null or ParentId = '' order by OrganizationCode
+    ]]>
+	</select>
+	
+	<select id="selectChildOrganization" resultMap="organizationTreeMap">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_Organization where ParentId = #{id} order by OrganizationCode
+    ]]>
+	</select>
+	
+
+    <select id="selectOrganizationUser" parameterType="java.lang.String" resultType="data.platform.entity.EntityPlatformUser">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_Users where OrganizationID = #{id}
+    ]]>
+	</select>
+	<!-- 查询多个组织机构下的所有用户信息。 -->
+	<select id="selectOrganizationUserList" parameterType="Map" resultType="hashMap">
+    <![CDATA[
+        select u.id as userid,u.ChineseName as chineseName,o.OrganizationName as organizationName ,o.id as organizationID
+        from &{framework.table.prefix['platform']}tbl_Platform_Users u,
+        &{framework.table.prefix['platform']}tbl_Platform_Organization o
+        where u.OrganizationID = o.id and OrganizationID in
+    ]]>
+    <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">   
+  		#{item}
+   	</foreach>
+   	<![CDATA[
+   		order by u.SeqNums  asc
+   	]]>
+   	</select>
+   	
+   	<!-- 查询多个用户的组织机构根据用户id。 -->
+   	<select id="selectOrganizationByUserID" parameterType="Map" resultType="hashMap">
+    <![CDATA[
+        select u.id as userid,u.ChineseName as chineseName,o.OrganizationName as organizationName ,o.id as organizationID
+        from &{framework.table.prefix['platform']}tbl_Platform_Users u,
+        &{framework.table.prefix['platform']}tbl_Platform_Organization o
+        where u.OrganizationID = o.id and u.id in
+    ]]>
+    <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">
+  		#{item}
+   	</foreach>
+   	<![CDATA[
+   		order by u.SeqNums  asc
+   	]]>
+   	</select>
+   	
+	<select id="one" parameterType="Map" resultType="Map">
+    <![CDATA[
+        select id,OrganizationName  from
+           &{framework.table.prefix['platform']}tbl_Platform_Organization 
+    ]]>
+     <where>
+    	<if test="id==null or id==''">  
+            AND ParentId is null or ParentId = ''
+       	</if>
+       	<if test="id!=null and id!=''">  
+           AND ParentId = #{id}
+       	</if>
+   	</where>
+	</select>
+	
+	 <select id="selectUsers" parameterType="java.lang.String" resultType="Map">
+    <![CDATA[
+       select u.id,u.ChineseName,u.loginAccount,po.OrganizationName from &{framework.table.prefix['platform']}tbl_Platform_Users as u
+       left join  &{framework.table.prefix['platform']}tbl_Platform_Organization as po on po.id = u.OrganizationID
+       where u.OrganizationID=#{id} order by u.SeqNums  asc
+    ]]>
+	</select>
+	
+	
+	<!-- 模块类型数据 -->
+	<select id="loadModelTypes" parameterType="Map" resultType="data.platform.entity.EntityPlatformDataDictionary">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_PD_DataDictionary
+                                 where ParentDictionary='CC3FF5A5-64EF-4C18-863D-8C76227D7000' and DictionaryCode in
+    ]]>
+     <foreach collection="modelTypeList" index="index" item="item" open="(" separator="," close=")">   
+  		#{item}
+   	</foreach>
+	</select>
+	
+	<select id="selectRootName" resultType="java.lang.String">
+	<![CDATA[
+        select OrganizationName from &{framework.table.prefix['platform']}tbl_Platform_Organization where ParentId is null or ParentId = '' order by OrganizationCode
+    ]]>
+	</select>
+	
+	<select id="selecAlltUsers" parameterType="java.lang.String" resultType="Map">
+    <![CDATA[
+       select id,ChineseName from &{framework.table.prefix['platform']}tbl_Platform_Users  order by SeqNums asc
+    ]]>
+	</select>
+	
+	 <select id="selectUsersForShareSchedule" parameterType="Map" resultType="Map">
+    <![CDATA[
+       select id,ChineseName from &{framework.table.prefix['platform']}tbl_Platform_Users 
+       where OrganizationID=#{id} and id!=#{userId} and id not in (select ToUserAccountId from &{framework.table.prefix['platform']}tbl_Calendar_ShareUserInfo where UserId=#{userId}) order by SeqNums  asc
+    ]]>
+	</select>
+	
+	 <select id="selectAllOrganizations" resultType="data.platform.entity.EntityPlatformOrganization">
+    <![CDATA[
+       select * from &{framework.table.prefix['platform']}tbl_Platform_Organization  
+       where ParentId in (select id from &{framework.table.prefix['platform']}tbl_Platform_Organization where ParentId is null or ParentId = '') order by CreateTime  asc
+    ]]>
+	</select> 
+	
+	<!-- 查询所有部门(除了中心领导部门) -->
+	<select id="selectAllOrganizationsExceptSeniorOrg" resultType="data.platform.entity.EntityPlatformOrganization">
+    <![CDATA[
+       select * from &{framework.table.prefix['platform']}tbl_Platform_Organization  
+                where  id!='00EB41BF-EB1D-46F9-837E-8F73714407BE' and ParentId in (select id from &{framework.table.prefix['platform']}tbl_Platform_Organization where ParentId is null or ParentId = '') order by CreateTime  asc
+    ]]>
+	</select>
+</mapper>

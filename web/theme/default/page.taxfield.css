@@ -1,0 +1,100 @@
+body{
+background-color: #FFFFFF;
+}
+.editor-table
+{
+width:100%;
+border-collapse: collapse;
+}
+.editor-table .title{
+background-color: #0F668F;
+padding: 9px;
+color: white;
+font-size: 12px;
+font-weight: normal;
+}
+.editor-table thead tr{
+background-color: white;
+}
+.editor-table th{
+padding:6px;
+font-weight: normal;
+}
+.editor-table td{
+padding:6px 12px;
+}
+.editor-table td,.editor-table th{
+border:1px solid #ccc;
+}
+
+.editor-table .fa-plus{
+font-size: 12px;
+color: #0f668f;
+cursor: pointer;
+float:right;
+}
+.editor-table .fa-plus:HOVER{
+color:#eb460e;
+}
+.editor-table .fa-times{
+font-size: 12px;
+cursor: pointer;
+color:#eb460e;
+}
+.editor-table .fa-times:HOVER,.editor-table .fa-times:ACTIVE 
+{
+color: red;
+}
+.e-row{
+height: 30px;
+margin-top: 4px;
+}
+.e-row .ui-pick-panel,.e-row select,.y-row .ui-pick-panel,.y-row select{
+display: inline-block;
+}
+.y-row {
+height: 30px;
+margin-top: 4px;
+}
+.form-control.disabled{
+  border-color:#ccc;
+  color:#ccc;
+}
+
+
+.tdinputdiv{
+	text-align: right;
+	width:480px;
+}
+.tdinputdiv input,.tdinputdiv select,.tdinputdiv textarea{
+	text-align:left;
+	width: 300px;
+	margin-left:6px;
+}
+
+.bluetab .ui-widget-header {
+border: none;
+background: #BBBBBB;
+}
+.bluetab ul.ui-tabs-nav {
+margin: 0;
+padding: 6px 0px 0 6px;
+}
+
+.bluetab .ui-tabs-panel {
+display: block;
+border-width: 0;
+padding:0 6px;
+background: none;
+}
+
+.sjpz-fixed-header{
+    display: none; 
+    position: fixed; 
+    z-index: 5; 
+    background-color: white;
+}
+
+.sjpz-content-fixed-header{
+    
+}

@@ -1,0 +1,42 @@
+﻿.easyPieChart {
+    position: relative;
+    text-align: center;
+}
+
+    .easyPieChart canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+.ui-pieprogress {
+    font-size: 14px;
+    font-family: 微软雅黑;
+    position: relative;
+    text-align: center;
+}
+.ui-pieprogress img{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+    .ui-pieprogress span {
+        margin-left: 6px;
+        font-weight: bold;
+        color: #3f3f3f;
+    }
+
+
+.p-title {
+display: block; text-align: center; font-size: 12px; margin-top: 12px; font-weight: bold; color: #606060;
+}
+.p-sub-title {
+    display: block; text-align: center; font-size: 12px; margin-top: 3px; color: #929295;
+}
+
+.jde-progress-node,.sjcj-progress-node,.sjjy-progress-node,.ss-progress-node,.cyfx-progress-node,.sbb-progress-node {
+display: inline-block; margin: 36px 6px;
+}
+.p-progress {
+display:inline-block;
+}

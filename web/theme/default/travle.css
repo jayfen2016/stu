@@ -1,0 +1,66 @@
+table.tableTemplet1 {
+  background-color: #F6F6F6;
+  border-collapse: collapse;
+  width:90%;
+  margin:0 auto;
+  border: 1px solid #E9E9E9;
+}
+input[name=ThingSeq]:hover{
+	color:#3babe3;
+}
+table.tableTemplet1 tbody td {
+  border: 1px solid #E9E9E9;
+  border-left:0px;
+  border-top:0px;
+  font-size: 12px;
+  text-align: left;
+  padding: 5px -5px;
+}
+.operatetable{
+	min-width:200px;
+}
+.completedTable td{
+	text-align: center;
+	background: #fff;
+	height : 35px;
+	text-align:center;
+}
+.completedTable th {
+	 border: 1px solid #E9E9E9;
+     border-bottom-width:1px;
+     text-align:center;
+     font-size:12px;
+     font-family: 微软雅黑;
+     padding: 6px 12px;
+     color:white;
+     width:135px;
+     background-color: #36A9E0;
+}
+#submitform table td textarea{
+	margin-left:2px;
+	
+}
+/*#InnerTitle{
+	text-align:left;
+    font-size:12px;
+    font-family: 微软雅黑;
+    color:#666666;
+    font-weight:400;
+}
+#InnerTitle:hover{
+	color:initial;
+	text-decoration: none;
+	font-weight:formal;
+}
+ #FileTitle{
+	text-align:left;
+    font-size:12px;
+    font-family: 微软雅黑;
+    color:#666666;
+    font-weight:400;
+}
+#FileTitle:hover{
+	color:initial;
+	text-decoration: none;
+	font-weight:formal;
+} */

@@ -1,0 +1,70 @@
+body{background-color: #FFFFFF;}
+.base-info-table {
+    border: none;
+}
+
+.base-info-table .label-td {
+    padding: 6px;
+    white-space: nowrap;
+}
+
+.base-info-table .input-td {
+    width: 200px;
+}
+
+.base-info-table .input-td div {
+    background-color: rgb(247, 247, 247);
+    padding: 2px 12px;
+    margin: 3px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 9px;
+    color: rgb(9, 93, 170);
+}
+.editor-table
+{
+width:100%;
+border-collapse: collapse;
+}
+.editor-table .title{
+background-color: #0F668F;
+padding: 9px;
+color: white;
+font-size: 12px;
+font-weight: normal;
+}
+.editor-table thead tr{
+background-color: white;
+}
+.editor-table th{
+padding:6px;
+font-weight: normal;
+}
+.editor-table td{
+padding:6px 12px;
+}
+.editor-table td,.editor-table th{
+border:1px solid #ccc;
+}
+
+.editor-table .fa-plus{
+font-size: 12px;
+color: #0f668f;
+cursor: pointer;
+float:right;
+}
+.editor-table .fa-times{
+font-size: 12px;
+cursor: pointer;
+color:#eb460e;
+}
+.editor-table .fa-times:HOVER,.editor-table .fa-times:ACTIVE 
+{
+color: red;
+}
+.e-row{
+
+}
+.e-row .ui-pick-panel,.e-row select{
+display: inline-block;margin-top:3px;margin-bottom:2px;height:24px;color:#555;
+}

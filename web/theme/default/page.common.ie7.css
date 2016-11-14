@@ -1,0 +1,20 @@
+﻿.chzn-search input {
+    width: auto !important;
+}
+
+.ui-th-div-ie input.cbox {
+    margin-top: 4px;
+}
+
+
+.ui-jqgrid .ui-th-div-ie .ui-icon-asc {
+    margin-top: -5px;
+    height: 12px;
+}
+
+.ui-jqgrid .ui-th-div-ie .ui-icon-desc {
+    margin-top: 2px;
+    height: 12px;
+    
+}
+

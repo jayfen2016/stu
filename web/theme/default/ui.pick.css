@@ -1,0 +1,64 @@
+.ui-pick-panel {
+	padding: 0px;
+	color: #555;
+	background-color: #fff;
+	border: 1px solid #aaa;
+	background-image: linear-gradient(rgb(238, 238, 238) 1%, rgb(255, 255, 255) 15%);
+	-webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	-webkit-rtl-ordering: logical;
+	-webkit-user-select: text;
+	cursor: auto;
+	font-size: 13px;
+	margin-left: 0px;
+	margin-right: 0px;
+	position: relative;
+	height: 23px;
+	cursor: pointer;
+	vertical-align: middle;
+	display: inline-block;
+}
+.ui-pick-panel .trigger-icon {
+	position: absolute;
+	z-index: 2;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	width: 20px;
+	background-image: url('images/chosen-sprite.png');
+	background-repeat: no-repeat;
+	background-position: 0px 2px;
+}
+
+.ui-pick-panel:hover .trigger-icon {
+
+}
+
+.ui-pick-panel:active .trigger-icon {
+	background-position: -19px 2px;
+}
+
+.text-panel {
+	position: absolute;
+	z-index: 1;
+	vertical-align: middle;
+	padding: 3px;
+	left: 0px;
+	right: 26px;
+	top: 0px;
+	bottom: 0px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: left;
+        white-space: nowrap;
+}
+
+.ui-pick-panel.disabled {
+	opacity: 0.5 !important;
+    cursor: default;
+    filter: Alpha(Opacity=50); 
+}
+
+.ui-pick-panel.disabled:active .trigger-icon {
+	background-position: 0px 2px;
+}

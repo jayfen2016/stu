@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<link href="../../theme/default/ui.tree.css" rel="stylesheet" />
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/ui.tree.js"></script>
+		<style type="text/css">
+			body {
+				font-size: 75%;
+                                padding:12px 12px 12px 12px;
+			}
+		</style>
+		<script type="text/javascript">
+			var result = [];
+			function getValue() {
+
+				var $v = $("#tree1").find("input:checked"), text = $v.next().text(), value = $v.data("id");
+				result = [{
+					"text" : text,
+					"value" : value
+				}];
+				return result;
+			}
+
+            function setValue(data) {
+               result=data;
+			}
+
+			function clearValue() {
+				result = [];
+				updateChecked();
+			}
+
+			var tindex = 1;
+			var initHTML = function() {
+				$("#tree1").tree({
+					dataUrl : "../../platform/menu.do?command=getTree",
+					autoOpen : true,
+					selectable : false,
+					onCreateLi : function(node, $li) {
+						var cls = $li.find(".jqtree-title").attr("class"), text = $li.find(".jqtree-title").text();
+						var isCheck=false;
+						for(var i in result){
+							if(node.id===result[i].value){
+								isCheck=true;
+							}
+							
+						}
+						$li.find('.jqtree-title').before('<input name="lsc" '+(isCheck?'checked="checked"':'')+ ' data-id="' + node.id + '" type="radio">');
+
+					}
+				}).bind('tree.click', function(event) {
+					$(event.node.element).find("input[type=radio]")[0].checked = true;
+				});
+			};
+			function updateChecked() {
+				var data = result;
+				$("body").find("input[type=checked],input[type=radio]").each(function(i, eitem) {
+					var isC = false, $item = $(eitem);
+					for (var t in data) {
+						var item = data[t];
+						if (item.value === $item.data("id")) {
+							isC = true;
+						}
+					}
+					if (isC) {
+						eitem.checked = true;
+					} else {
+						eitem.checked = false;
+					}
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div id="tree1"> </div>
+	</body>
+</html>

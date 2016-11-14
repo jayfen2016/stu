@@ -1,0 +1,99 @@
+.pagination {
+    overflow: hidden;
+    position: absolute;
+}
+
+    .pagination a {
+        display: block;
+        float: left;
+          margin: 0px;
+        height:24px;
+        width:24px;
+         line-height:23px;
+         
+        outline: none;
+       
+        vertical-align: middle;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 16px;
+        font-family: Times, 'Times New Roman', Georgia, Palatino;
+        /* ATTN: need a better font stack 
+border: 1px solid #009E98;*/
+ color: #ffffff;
+background-color: #009E98;
+font-weight: bold;
+border: 1px solid #cccccc;
+border-radius: 12px;
+    }
+
+        .pagination a:hover, .pagination a:focus, .pagination a:active {
+            background-color: #00CAC3;
+            color: #ffffff;
+            cursor:pointer;
+        }
+
+        .pagination a.disabled, .pagination a.disabled:hover, .pagination a.disabled:focus, .pagination a.disabled:active {
+            background-color: #a3dad8;
+            color: #fcfcfc;
+            cursor: default;
+        }
+
+        .pagination a.first {
+       /*
+         border-top-left-radius:6px;
+                border-bottom-left-radius:6px;*/
+                /*border-right:none;*/
+             
+        }
+       .pagination a.previous {
+         /*border-right:none;*/
+         margin-left:6px;
+         margin-right:6px;
+        }
+        .pagination a.last {
+       /*
+            border-top-right-radius:6px;
+                   border-bottom-right-radius:6px;*/
+                  /*border-left:none; */
+       
+        }
+              .pagination a.next {
+         /*border-left:none;*/
+        margin-left:6px;
+         margin-right:6px;
+        }
+
+    .pagination input {
+        float: left;
+        margin: 0px 0px;
+        padding: 0;
+        width: 120px;
+        height: 24px;
+        border:1px solid #ccc;
+        outline: none;
+        line-height:23px;
+        text-align: center;
+        /*border-left: none;
+        border-right:none;*/
+       border-radius: 12px;
+    }
+
+/* gigantic class for demo purposes */
+.gigantic.pagination {
+    margin: 30px 0;
+}
+
+    .gigantic.pagination a {
+        height: 60px;
+        width: 60px;
+        font-size: 50px;
+        line-height: 50px;
+    }
+
+    .gigantic.pagination input {
+        width: 300px;
+        height: 60px;
+        font-size: 30px;
+    }

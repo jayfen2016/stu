@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "/WEB-INF/classes/mybatis-3-mapper.dtd">
+
+<mapper namespace="platformDataDictionary">
+	<!-- 插入数据字典 -->
+	<insert id="insertDataDictionary" parameterType="data.platform.entity.EntityPlatformDataDictionary">
+	<selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE">  
+  		SELECT NewID()
+    </selectKey>  
+    <![CDATA[
+        INSERT INTO &{framework.table.prefix['platform']}tbl_PD_DataDictionary
+		(id,DictionaryCode,DictionaryName,ParentDictionary,DictionaryType,DictionaryModule,Remark,CreateTime,UpdateTime,Operator)
+		VALUES(#{id},#{dictionaryCode},#{dictionaryName},#{parentDictionary},#{dictionaryType},#{dictionaryModule},#{remark},#{createTime},#{updateTime},#{operator})  
+    ]]>
+	</insert>
+	
+	<!-- 更新数据字典 -->
+	<update id="updateDataDictionary" parameterType="data.platform.entity.EntityPlatformDataDictionary">
+	    <![CDATA[
+        update &{framework.table.prefix['platform']}tbl_PD_DataDictionary
+		set DictionaryName=#{dictionaryName},
+		DictionaryCode=#{dictionaryCode},
+		ParentDictionary=#{parentDictionary},
+		DictionaryType=#{dictionaryType},
+		DictionaryModule=#{dictionaryModule},
+		Remark=#{remark},
+		UpdateTime=#{updateTime},
+		Operator=#{operator} where id = #{id}
+    ]]>
+	</update>
+	
+	<!-- 加载数据字典 -->
+	<select id="loadDataDictionary" parameterType="java.lang.String" resultType="data.platform.entity.EntityPlatformDataDictionary">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_PD_DataDictionary where id = #{id}
+    ]]>
+	</select>
+	
+	<!-- 删除数据字典 -->
+	<delete id="deleteDataDictionary">
+	<![CDATA[
+        delete from &{framework.table.prefix['platform']}tbl_PD_DataDictionary where id in 
+    ]]>
+    <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+	</delete>
+	
+	<!-- 分页查询 -->
+	<select id="selectPaging" needPaging="true" parameterType="Map" resultType="data.platform.entity.EntityPlatformDataDictionary">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}V_Platform_DataDictionary_Tree 
+    ]]>
+    <where>
+    	<if test="dictionaryName!=null and dictionaryName!=''">  
+           AND DictionaryName like CONCAT('%',#{dictionaryName},'%')
+       	</if>
+       	<if test="dictionaryCode!=null and dictionaryCode!=''">  
+           AND DictionaryCode like CONCAT('%',#{dictionaryCode},'%')
+       	</if>
+   	</where>
+	</select>
+	
+	<!-- 查询数据字典树 -->
+	<resultMap id="dataDictionaryTreeMap" type="data.framework.data.DataTree">
+		<result property="id" column="id" />
+		<result property="label" column="DictionaryName" />
+		<result property="dictionaryCode" column="dictionaryCode" />
+		<result property="remark" column="remark" />
+
+		<collection property="children" column="id" ofType="data.framework.data.DataTree" javaType="java.util.ArrayList" select="selectChildDataDictionary">
+			<result property="id" column="id" />
+			<result property="label" column="DictionaryName" />
+            <result property="dictionaryCode" column="dictionaryCode" />
+            <result property="remark" column="remark" />
+		</collection>
+	</resultMap>
+    
+	<select id="selectTreeDataDictionary" parameterType="Map" resultMap="dataDictionaryTreeMap">
+	<![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_PD_DataDictionary where ParentDictionary is null or ParentDictionary = '' order by DictionaryCode
+    ]]>
+	</select>
+	
+	<select id="selectChildDataDictionary" resultMap="dataDictionaryTreeMap">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_PD_DataDictionary where ParentDictionary = #{id} order by DictionaryCode
+    ]]>
+	</select>
+
+    <select id="selectTreeDataDictionaryByParentCode" parameterType="String" resultMap="dataDictionaryTreeMap">
+        <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_PD_DataDictionary
+        where ParentDictionary=(select id from &{framework.table.prefix['platform']}tbl_PD_DataDictionary where DictionaryCode = #{parentCode})
+        order by DictionaryCode
+        ]]>
+    </select>
+      <select id="selectDictionaryValueByCode" parameterType="String" resultType="data.platform.entity.EntityPlatformDataDictionary">
+        <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_PD_DataDictionary where DictionaryCode=#{dictionaryCode}
+        ]]>
+    </select>
+</mapper>

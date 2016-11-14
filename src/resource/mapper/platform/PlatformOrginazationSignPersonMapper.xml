@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "/WEB-INF/classes/mybatis-3-mapper.dtd">
+
+<mapper namespace="platformOrgSignPerson">
+
+	<insert id="insertOrgSignPerson" parameterType="data.platform.entity.EntityPlatformOrgSignPerson">
+	<selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE">  
+  		SELECT NewID()
+    </selectKey>  
+    <![CDATA[
+        INSERT INTO &{framework.table.prefix['platform']}tbl_Platform_OrginazationSignPerson
+		(id,OrgId,OrgName,SignPersonId,ModuleTypeId,CreateTime,CreatorID,UpdateTime,ModifierID,ModuleTypeName,SignPersonName)
+		VALUES(#{id},#{orgId},#{orgName},#{signPersonId},#{moduleTypeId},#{createTime},#{creatorId},#{updateTime},#{modifierId},#{moduleTypeName},#{signPersonName})  
+    ]]>
+	</insert>
+	
+	<update id="updateOrgSignPerson" parameterType="data.platform.entity.EntityPlatformOrgSignPerson">
+	    <![CDATA[
+        update &{framework.table.prefix['platform']}tbl_Platform_OrginazationSignPerson
+		set OrgId=#{orgId},
+			OrgName=#{orgName},
+			SignPersonId=#{signPersonId},
+			ModuleTypeId=#{moduleTypeId},
+			CreateTime=#{createTime},
+			CreatorID=#{creatorId},
+			UpdateTime=#{updateTime},
+			ModuleTypeName=#{moduleTypeName},
+			SignPersonName=#{signPersonName},
+			ModifierID=#{modifierId}
+		where id = #{id}
+    ]]>
+	</update>
+	
+	<delete id="deleteOrgSignPerson">
+	<![CDATA[
+        delete from &{framework.table.prefix['platform']}tbl_Platform_OrginazationSignPerson where id in 
+    ]]>
+    <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">     
+  		#{item}
+   	</foreach>
+	</delete>
+	
+	<!-- 加载部门转发人员信息 -->
+	<select id="loadOrgSendPerson" parameterType="java.lang.String" resultType="data.platform.entity.EntityPlatformOrgSignPerson">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_OrginazationSignPerson where id = #{id}
+    ]]>
+	</select>
+	
+		<!-- 加载部门转发人员信息 -->
+	<select id="loadOrgSendPersonByOrgId" parameterType="java.lang.String" resultType="Map">
+    <![CDATA[
+        select org.OrganizationName as orgName,org.id as orgId,sign.SignPersonId as signPersonId,
+                    sign.SignPersonName as signPersonName,sign.ModuleTypeId as moduleTypeId,sign.ModuleTypeName as moduleTypeName,
+                    sign.id as signId
+                      from  &{framework.table.prefix['platform']}tbl_Platform_Organization org left join 
+                      &{framework.table.prefix['platform']}tbl_Platform_OrginazationSignPerson sign  on sign.OrgId=org.id
+                  where org.id = #{orgId}
+    ]]>
+	</select>
+	
+	<!-- 根据部门Id和模块类型名称 来加载 部门转发人员id -->
+	<select id="loadSignedNoticePersonId" parameterType="java.lang.String" resultType="Map">
+    <![CDATA[
+        select SignPersonId,SignPersonName from &{framework.table.prefix['platform']}tbl_Platform_OrginazationSignPerson where OrgId = #{orgId} and ModuleTypeId=#{moduleTypeId}
+    ]]>
+	</select>
+	<select id="searchInfo" parameterType="java.lang.String" resultType="data.platform.entity.EntityPlatformOrgSignPerson">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_OrginazationSignPerson where SignPersonId = #{loginId}
+    ]]>
+	</select>
+	
+</mapper>

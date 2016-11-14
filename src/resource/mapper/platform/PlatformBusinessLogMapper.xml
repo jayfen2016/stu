@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "/WEB-INF/classes/mybatis-3-mapper.dtd">
+
+<mapper namespace="platformBusinessLog">
+	<!-- 分页查询业务日志 -->
+	<select id="selectPaging" needPaging="true"  parameterType="Map" resultType="data.platform.entity.EntityPlatformBusinessLog">
+    <![CDATA[
+        select * from &{framework.table.prefix['platform']}tbl_Platform_BusinessLog
+    ]]>
+    <where>
+    	<if test="operatorChineseName!=null and operatorChineseName!=''">  
+           AND OperatorChineseName like CONCAT('%',#{operatorChineseName},'%')
+       	</if>
+       	<if test="operatorTMISAccount!=null and operatorTMISAccount!=''">  
+           AND OperatorTMISAccount like CONCAT('%',#{operatorTMISAccount},'%')
+       	</if>
+       	<if test="operatorADAccount!=null and operatorADAccount!=''">  
+           AND OperatorADAccount like CONCAT('%',#{operatorADAccount},'%')
+       	</if>
+       	<if test="startDate!=null">
+       	<![CDATA[   
+           AND CONVERT(varchar(100), OperateTime, 23) >= #{startDate} 
+        ]]>
+       	</if>
+       	<if test="endDate!=null">
+       	<![CDATA[  
+           AND CONVERT(varchar(100), OperateTime, 23) <= #{endDate}
+        ]]>
+       	</if>
+       	<if test="operateType!=null and operateType!=''">  
+           AND OperateType = #{operateType}
+       	</if>
+       	<if test="module!=null and module!=''">  
+           AND Module like CONCAT('%',#{module},'%')
+       	</if>
+   	</where>
+	</select>
+</mapper>
